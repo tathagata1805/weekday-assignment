@@ -1,12 +1,21 @@
 import React, { useState } from "react";
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  Fade,
+  Modal,
+  Backdrop,
+} from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 function JobCard({ jobData }) {
   const getInitials = (name) => name.charAt(0).toUpperCase();
-  const [expand, setExpand] = useState(false);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const capitalizeFirstLetter = (string) => {
     if (string) {
@@ -26,7 +35,17 @@ function JobCard({ jobData }) {
     lineHeight: "1.2em",
   };
 
-  console.log(jobData?.jobDetailsFromCompany);
+  const modalStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
   return (
     <Card
@@ -97,15 +116,9 @@ function JobCard({ jobData }) {
         <Typography sx={{ fontWeight: "bold", mb: 2 }}>
           About Company:
         </Typography>
-        {expand === true ? (
-          <Typography variant="body2">
-            {jobData.jobDetailsFromCompany}
-          </Typography>
-        ) : (
-          <Typography variant="body2" style={gradientTextStyle}>
-            {jobData.jobDetailsFromCompany.substring(0, 300)}
-          </Typography>
-        )}
+        <Typography variant="body2" style={gradientTextStyle}>
+          {jobData.jobDetailsFromCompany.substring(0, 300)}
+        </Typography>
         <Button
           variant="text"
           color="primary"
@@ -115,10 +128,39 @@ function JobCard({ jobData }) {
             justifyContent: "center",
             textTransform: "none",
           }}
-          onClick={() => setExpand(!expand)}
+          onClick={handleOpen}
         >
-          {expand ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+          Show more
         </Button>
+        <Modal
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          open={open}
+          onClose={handleClose}
+          closeAfterTransition
+          slots={{ backdrop: Backdrop }}
+          slotProps={{
+            backdrop: {
+              timeout: 500,
+            },
+          }}
+        >
+          <Fade in={open}>
+            <Box sx={modalStyle}>
+              <Typography
+                id="transition-modal-title"
+                variant="h6"
+                component="h2"
+                align="center"
+              >
+                Job Description
+              </Typography>
+              <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+                {jobData.jobDetailsFromCompany}
+              </Typography>
+            </Box>
+          </Fade>
+        </Modal>
         <Typography sx={{ mb: 2 }}>
           Minimum Experience: {jobData.minExp || "x"} years
         </Typography>
