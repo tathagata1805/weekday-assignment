@@ -4,11 +4,14 @@
 
 This is the clone of weekday's product- candidate application platform with the following features:
 
-- allows users to view job listings, 
-- filter jobs based on various criteria, 
+- allows users to view job listings,
+- filter jobs based on various criteria,
 - infinite scroll for a seamless browsing experience
 - responsive design
 
+## Deployed version
+
+This project is deployed on vercel and you can go and check the live version at `https://weekday-assignment-ivory.vercel.app/`
 
 ## Set up on your local
 
@@ -20,13 +23,14 @@ Follow the below steps to run this application locally on your machine:
 4. Run the app using `npm run dev`
 5. Visit `http://localhost:5173/`
 
-## Tech Stack 
+## Tech Stack
 
 - ReactJs
 - Redux
 - CSS
 - Material UI
----------------------------------------------
+
+---
 
 #### Note to reviewers:
 
